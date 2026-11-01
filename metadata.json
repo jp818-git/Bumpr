@@ -1,0 +1,6 @@
+{
+  "name": "Bumpr",
+  "description": "Lightweight offline audio player with time-synced lyrics, manual sync editor, equalizer, and Android Auto integration.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
