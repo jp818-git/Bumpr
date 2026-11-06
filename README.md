@@ -4,7 +4,7 @@
 
 > This README describes the implementation present in this repository. Features that depend on device permissions or audio hardware may behave differently across Android devices.
 
-## App Screenshots
+### App Screenshots
 
 <div align="center">
   <table>
