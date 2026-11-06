@@ -13,7 +13,8 @@ enum class AppTheme(val displayName: String) {
     CYBERPUNK("Cyberpunk Lime"),
     AMETHYST("Midnight Amethyst"),
     TURQUOISE("Turquoise Classic"),
-    AMOLED("Pure AMOLED")
+    AMOLED("Pure AMOLED"),
+    GLASS("Glassmorphism")
 }
 
 enum class BackgroundStyle(val displayName: String) {
@@ -23,6 +24,11 @@ enum class BackgroundStyle(val displayName: String) {
     MINIMAL("Minimal Flat")
 }
 
+enum class NoLyricsDisplay(val displayName: String) {
+    ALBUM_ART("Album art"),
+    ANIMATED_WAVE("Animated wave")
+}
+
 data class Track(
     val id: String,
     val title: String,
@@ -30,7 +36,6 @@ data class Track(
     val album: String,
     val durationMs: Long,
     val contentUri: String,
-    val rawResId: Int? = null,
     val albumArtUri: String? = null,
     val albumArtResId: Int? = null,
     val hasSyncedLyrics: Boolean = false,

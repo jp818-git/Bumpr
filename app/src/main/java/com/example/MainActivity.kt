@@ -94,7 +94,7 @@ class MainActivity : ComponentActivity() {
                 // Permission Request on Launch
                 RequestAppPermissions()
 
-                AppBackground(backgroundStyle = backgroundStyle) {
+                AppBackground(backgroundStyle = backgroundStyle, appTheme = appTheme) {
                     BumprAppContent(viewModel = viewModel)
                 }
             }

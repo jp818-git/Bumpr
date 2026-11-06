@@ -13,6 +13,7 @@ import com.example.data.BumprDatabase
 import com.example.data.BumprPreferences
 import com.example.lyrics.LrcParser
 import com.example.model.AppTheme
+import com.example.model.NoLyricsDisplay
 import com.example.model.BackgroundStyle
 import com.example.model.EqPreset
 import com.example.model.EqState
@@ -111,6 +112,9 @@ class BumprViewModel(application: Application) : AndroidViewModel(application) {
 
     val backgroundStyle: StateFlow<BackgroundStyle> = prefs.backgroundStyleFlow
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), BackgroundStyle.MUSICAL_STAVE)
+
+    val noLyricsDisplay: StateFlow<NoLyricsDisplay> = prefs.noLyricsDisplayFlow
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), NoLyricsDisplay.ALBUM_ART)
 
     val themeMode: StateFlow<ThemeMode> = prefs.themeModeFlow
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), ThemeMode.DARK)
@@ -399,6 +403,12 @@ class BumprViewModel(application: Application) : AndroidViewModel(application) {
     fun setAppTheme(theme: AppTheme) {
         viewModelScope.launch {
             prefs.setAppTheme(theme)
+        }
+    }
+
+    fun setNoLyricsDisplay(mode: NoLyricsDisplay) {
+        viewModelScope.launch {
+            prefs.setNoLyricsDisplay(mode)
         }
     }
 

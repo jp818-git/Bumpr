@@ -5,6 +5,7 @@ import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -19,11 +20,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.BatteryChargingFull
 import androidx.compose.material.icons.filled.DirectionsCar
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.KeyboardArrowDown
@@ -31,6 +29,13 @@ import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material.icons.filled.Subtitles
 import androidx.compose.material.icons.filled.Wallpaper
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.GraphicEq
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
@@ -60,6 +65,7 @@ import androidx.compose.ui.unit.sp
 import androidx.media3.common.util.UnstableApi
 import com.example.model.AppTheme
 import com.example.model.BackgroundStyle
+import com.example.model.NoLyricsDisplay
 import com.example.model.ThemeMode
 import com.example.ui.BumprViewModel
 
@@ -75,6 +81,7 @@ fun SettingsScreen(
     val backgroundStyle by viewModel.backgroundStyle.collectAsState()
     val showLyricsInCar by viewModel.showLyricsInCar.collectAsState()
     val keepAwake by viewModel.keepScreenAwake.collectAsState()
+    val noLyricsDisplay by viewModel.noLyricsDisplay.collectAsState()
     val fontSizeSp by viewModel.lyricsFontSize.collectAsState()
 
     var isAboutExpanded by remember { mutableStateOf(false) }
@@ -87,9 +94,16 @@ fun SettingsScreen(
         ThemeMode.SYSTEM -> isSystemDark
     }
 
-    val primaryTextColor = if (isDark) Color.White else Color.Black
-    val secondaryTextColor = if (isDark) Color(0xFFD1D5DB) else Color(0xFF4B5563)
-    val cardBgColor = if (isDark) MaterialTheme.colorScheme.surface.copy(alpha = 0.88f) else Color.White.copy(alpha = 0.95f)
+    val primaryTextColor = if (isDark) Color(0xFFDDE3EA) else Color(0xFF111827)
+    val secondaryTextColor = if (isDark) Color(0xFF9AA5B1) else Color(0xFF4B5563)
+    val isGlass = appTheme == AppTheme.GLASS
+    val cardBgColor = when {
+        isGlass && isDark -> Color.White.copy(alpha = 0.12f)
+        isGlass -> Color.White.copy(alpha = 0.55f)
+        isDark -> MaterialTheme.colorScheme.surface.copy(alpha = 0.88f)
+        else -> Color.White.copy(alpha = 0.95f)
+    }
+    val cardBorder = if (isGlass) BorderStroke(1.dp, Color.White.copy(alpha = if (isDark) 0.28f else 0.8f)) else null
 
     LazyColumn(
         modifier = modifier
@@ -114,6 +128,7 @@ fun SettingsScreen(
                     contentColor = primaryTextColor
                 ),
                 shape = RoundedCornerShape(16.dp),
+                border = cardBorder,
                 modifier = Modifier.fillMaxWidth().testTag("theme_settings_card")
             ) {
                 Column(modifier = Modifier.padding(16.dp)) {
@@ -182,28 +197,13 @@ fun SettingsScreen(
 
                     Spacer(modifier = Modifier.height(10.dp))
 
-                    LazyRow(
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        contentPadding = PaddingValues(vertical = 2.dp)
-                    ) {
-                        items(AppTheme.values()) { theme ->
-                            FilterChip(
-                                selected = appTheme == theme,
-                                onClick = { viewModel.setAppTheme(theme) },
-                                label = {
-                                    Text(
-                                        text = theme.displayName,
-                                        color = if (appTheme == theme) MaterialTheme.colorScheme.onPrimaryContainer
-                                                else primaryTextColor
-                                    )
-                                },
-                                colors = FilterChipDefaults.filterChipColors(
-                                    selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
-                                    selectedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer
-                                )
-                            )
-                        }
-                    }
+                    SettingsDropdown(
+                        options = AppTheme.values().toList(),
+                        selected = appTheme,
+                        label = { it.displayName },
+                        textColor = primaryTextColor,
+                        onSelect = { viewModel.setAppTheme(it) }
+                    )
                 }
             }
         }
@@ -216,6 +216,7 @@ fun SettingsScreen(
                     contentColor = primaryTextColor
                 ),
                 shape = RoundedCornerShape(16.dp),
+                border = cardBorder,
                 modifier = Modifier.fillMaxWidth().testTag("background_settings_card")
             ) {
                 Column(modifier = Modifier.padding(16.dp)) {
@@ -235,28 +236,41 @@ fun SettingsScreen(
 
                     Spacer(modifier = Modifier.height(12.dp))
 
-                    LazyRow(
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        contentPadding = PaddingValues(vertical = 2.dp)
-                    ) {
-                        items(BackgroundStyle.values()) { style ->
-                            FilterChip(
-                                selected = backgroundStyle == style,
-                                onClick = { viewModel.setBackgroundStyle(style) },
-                                label = {
-                                    Text(
-                                        text = style.displayName,
-                                        color = if (backgroundStyle == style) MaterialTheme.colorScheme.onPrimaryContainer
-                                                else primaryTextColor
-                                    )
-                                },
-                                colors = FilterChipDefaults.filterChipColors(
-                                    selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
-                                    selectedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer
-                                )
-                            )
-                        }
+                    SettingsDropdown(
+                        options = BackgroundStyle.values().toList(),
+                        selected = backgroundStyle,
+                        label = { it.displayName },
+                        textColor = primaryTextColor,
+                        onSelect = { viewModel.setBackgroundStyle(it) }
+                    )
+
+                    Spacer(modifier = Modifier.height(14.dp))
+                    HorizontalDivider(color = primaryTextColor.copy(alpha = 0.15f))
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(
+                            imageVector = Icons.Default.GraphicEq,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                        Spacer(modifier = Modifier.width(12.dp))
+                        Text(
+                            text = "Playing Screen (No Lyrics)",
+                            style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold),
+                            color = primaryTextColor
+                        )
                     }
+
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    SettingsDropdown(
+                        options = NoLyricsDisplay.values().toList(),
+                        selected = noLyricsDisplay,
+                        label = { it.displayName },
+                        textColor = primaryTextColor,
+                        onSelect = { viewModel.setNoLyricsDisplay(it) }
+                    )
                 }
             }
         }
@@ -269,6 +283,7 @@ fun SettingsScreen(
                     contentColor = primaryTextColor
                 ),
                 shape = RoundedCornerShape(16.dp),
+                border = cardBorder,
                 modifier = Modifier.fillMaxWidth().testTag("android_auto_card")
             ) {
                 Row(
@@ -315,6 +330,7 @@ fun SettingsScreen(
                     contentColor = primaryTextColor
                 ),
                 shape = RoundedCornerShape(16.dp),
+                border = cardBorder,
                 modifier = Modifier.fillMaxWidth().testTag("lyrics_preferences_card")
             ) {
                 Column(modifier = Modifier.padding(16.dp)) {
@@ -393,6 +409,7 @@ fun SettingsScreen(
                     contentColor = primaryTextColor
                 ),
                 shape = RoundedCornerShape(16.dp),
+                border = cardBorder,
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable { isAboutExpanded = !isAboutExpanded }
@@ -451,24 +468,10 @@ fun SettingsScreen(
 
                             Spacer(modifier = Modifier.height(12.dp))
 
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                Icon(
-                                    imageVector = Icons.Default.BatteryChargingFull,
-                                    contentDescription = null,
-                                    tint = MaterialTheme.colorScheme.primary
-                                )
-                                Spacer(modifier = Modifier.width(8.dp))
-                                Text(
-                                    text = "Battery Optimization",
-                                    style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
-                                    color = primaryTextColor
-                                )
-                            }
-                            Spacer(modifier = Modifier.height(4.dp))
                             Text(
-                                text = "Bumpr is engineered to minimize CPU cycles: background playback consumes under 3% battery per hour. Hardware DSP handles Equalizer and Bass Boost directly on the audio chipset without draining CPU power.",
-                                style = MaterialTheme.typography.bodySmall,
-                                color = secondaryTextColor
+                                text = "Vibe coded by: JP",
+                                style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
+                                color = MaterialTheme.colorScheme.primary
                             )
                         }
                     }
@@ -478,6 +481,53 @@ fun SettingsScreen(
 
         item {
             Spacer(modifier = Modifier.height(72.dp)) // Extra padding above navigation
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun <T> SettingsDropdown(
+    options: List<T>,
+    selected: T,
+    label: (T) -> String,
+    textColor: Color,
+    onSelect: (T) -> Unit
+) {
+    var expanded by remember { mutableStateOf(false) }
+    val primary = MaterialTheme.colorScheme.primary
+    ExposedDropdownMenuBox(expanded = expanded, onExpandedChange = { expanded = it }) {
+        OutlinedTextField(
+            value = label(selected),
+            onValueChange = {},
+            readOnly = true,
+            singleLine = true,
+            shape = RoundedCornerShape(12.dp),
+            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedTextColor = textColor,
+                unfocusedTextColor = textColor,
+                focusedBorderColor = primary,
+                unfocusedBorderColor = textColor.copy(alpha = 0.25f),
+                focusedTrailingIconColor = textColor,
+                unfocusedTrailingIconColor = textColor
+            ),
+            modifier = Modifier.menuAnchor().fillMaxWidth()
+        )
+        ExposedDropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
+            modifier = Modifier.background(MaterialTheme.colorScheme.background)
+        ) {
+            options.forEach { option ->
+                val tick: (@Composable () -> Unit)? =
+                    if (option == selected) { { Icon(Icons.Default.Check, null, tint = primary) } } else null
+                DropdownMenuItem(
+                    text = { Text(label(option)) },
+                    onClick = { onSelect(option); expanded = false },
+                    trailingIcon = tick
+                )
+            }
         }
     }
 }

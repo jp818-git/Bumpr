@@ -18,8 +18,8 @@ private val NeonCyanColorScheme = darkColorScheme(
     secondary = NeonCyanSecondary,
     background = NeonCyanBackground,
     surface = NeonCyanSurface,
-    onBackground = Color(0xFFE2E8F0),
-    onSurface = Color(0xFFF1F5F9),
+    onBackground = Color(0xFFC9D1DB),
+    onSurface = Color(0xFFD5DCE5),
     outline = Color(0xFF334155)
 )
 
@@ -31,8 +31,8 @@ private val SoundwaveColorScheme = darkColorScheme(
     secondary = SoundwaveSecondary,
     background = SoundwaveBackground,
     surface = SoundwaveSurface,
-    onBackground = Color(0xFFE2E8F0),
-    onSurface = Color(0xFFF8FAFC),
+    onBackground = Color(0xFFC9D1DB),
+    onSurface = Color(0xFFD5DCE5),
     outline = Color(0xFF3B4861)
 )
 
@@ -44,8 +44,8 @@ private val SunsetColorScheme = darkColorScheme(
     secondary = SunsetSecondary,
     background = SunsetBackground,
     surface = SunsetSurface,
-    onBackground = Color(0xFFFDE8EE),
-    onSurface = Color(0xFFFFF0F5),
+    onBackground = Color(0xFFC9D1DB),
+    onSurface = Color(0xFFD5DCE5),
     outline = Color(0xFF6B2144)
 )
 
@@ -57,8 +57,8 @@ private val CyberpunkColorScheme = darkColorScheme(
     secondary = CyberpunkSecondary,
     background = CyberpunkBackground,
     surface = CyberpunkSurface,
-    onBackground = Color(0xFFE6F4EA),
-    onSurface = Color(0xFFF0FDF4),
+    onBackground = Color(0xFFC9D1DB),
+    onSurface = Color(0xFFD5DCE5),
     outline = Color(0xFF1B4D3E)
 )
 
@@ -70,8 +70,8 @@ private val AmethystColorScheme = darkColorScheme(
     secondary = AmethystSecondary,
     background = AmethystBackground,
     surface = AmethystSurface,
-    onBackground = Color(0xFFF3E8FF),
-    onSurface = Color(0xFFFAF5FF),
+    onBackground = Color(0xFFC9D1DB),
+    onSurface = Color(0xFFD5DCE5),
     outline = Color(0xFF581C87)
 )
 
@@ -83,8 +83,8 @@ private val TurquoiseColorScheme = darkColorScheme(
     secondary = TurqSecondaryDark,
     background = TurqBackgroundDark,
     surface = TurqSurfaceDark,
-    onBackground = Color(0xFFE0E3E2),
-    onSurface = Color(0xFFF0FDF4),
+    onBackground = Color(0xFFC9D1DB),
+    onSurface = Color(0xFFD5DCE5),
     outline = Color(0xFF4A6360)
 )
 
@@ -174,9 +174,37 @@ private val AmoledColorScheme = darkColorScheme(
     secondary = Color(0xFF94A3B8),
     background = AmoledBackground,
     surface = AmoledSurface,
-    onBackground = Color(0xFFE2E8F0),
-    onSurface = Color.White,
+    onBackground = Color(0xFFC9D1DB),
+    onSurface = Color(0xFFD5DCE5),
     outline = Color(0xFF262626)
+)
+
+private val GlassColorScheme = darkColorScheme(
+    primary = Color(0xFF6FD6C7),
+    onPrimary = Color(0xFF00201D),
+    primaryContainer = Color(0xCC1A4F4B),
+    onPrimaryContainer = Color(0xFFCCFBF1),
+    secondary = Color(0xFFA78BFA),
+    background = Color(0xFF061A22),
+    surface = Color(0x1FFFFFFF),
+    surfaceVariant = Color(0x29FFFFFF),
+    onBackground = Color(0xFFC9D1DB),
+    onSurface = Color(0xFFD5DCE5),
+    outline = Color(0x66FFFFFF)
+)
+
+private val GlassLightColorScheme = lightColorScheme(
+    primary = Color(0xFF0F8F8A),
+    onPrimary = Color.White,
+    primaryContainer = Color(0xB3B8F2EA),
+    onPrimaryContainer = Color(0xFF00201D),
+    secondary = Color(0xFF7C5CE0),
+    background = Color(0xFFE6F6F4),
+    surface = Color(0x99FFFFFF),
+    surfaceVariant = Color(0xB3FFFFFF),
+    onBackground = Color(0xFF0B1F1E),
+    onSurface = Color(0xFF0B1F1E),
+    outline = Color(0x99475569)
 )
 
 @Composable
@@ -201,6 +229,7 @@ fun BumprTheme(
             AppTheme.AMETHYST -> AmethystColorScheme
             AppTheme.TURQUOISE -> TurquoiseColorScheme
             AppTheme.AMOLED -> AmoledColorScheme
+            AppTheme.GLASS -> GlassColorScheme
         }
     } else {
         when (appTheme) {
@@ -211,6 +240,7 @@ fun BumprTheme(
             AppTheme.AMETHYST -> AmethystLightColorScheme
             AppTheme.TURQUOISE -> TurquoiseLightColorScheme
             AppTheme.AMOLED -> SoundwaveLightColorScheme
+            AppTheme.GLASS -> GlassLightColorScheme
         }
     }
 

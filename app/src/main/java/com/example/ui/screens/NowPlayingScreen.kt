@@ -75,6 +75,8 @@ import androidx.compose.ui.unit.sp
 import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
 import com.example.ui.BumprViewModel
+import com.example.model.NoLyricsDisplay
+import com.example.ui.components.AnimatedWave
 import com.example.ui.components.formatDuration
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -98,6 +100,7 @@ fun NowPlayingScreen(
     val currentLyrics by viewModel.currentLyrics.collectAsState()
     val activeLyricIndex by viewModel.activeLyricIndex.collectAsState()
     val lyricsOffsetMs by viewModel.lyricsOffsetMs.collectAsState()
+    val noLyricsDisplay by viewModel.noLyricsDisplay.collectAsState()
 
     var isUserScrubbing by remember { mutableStateOf(false) }
     var scrubPositionMs by remember { mutableFloatStateOf(0f) }
@@ -190,8 +193,10 @@ fun NowPlayingScreen(
                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
             ) {
                 Box(modifier = Modifier.fillMaxSize()) {
-                    // Album art or visualizer waveform backdrop
-                    if (!track.albumArtUri.isNullOrBlank()) {
+                    // Animated wave (setting, only when no lyrics) or album art backdrop
+                    if (currentLyrics.lines.isEmpty() && noLyricsDisplay == NoLyricsDisplay.ANIMATED_WAVE) {
+                        AnimatedWave(isPlaying = isPlaying, modifier = Modifier.fillMaxSize())
+                    } else if (!track.albumArtUri.isNullOrBlank()) {
                         coil.compose.AsyncImage(
                             model = track.albumArtUri,
                             contentDescription = "Album Art",

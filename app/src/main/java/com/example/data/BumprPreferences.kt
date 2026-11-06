@@ -12,6 +12,7 @@ import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.example.model.AppTheme
 import com.example.model.BackgroundStyle
+import com.example.model.NoLyricsDisplay
 import com.example.model.ThemeMode
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -24,6 +25,7 @@ class BumprPreferences(private val context: Context) {
         val KEY_THEME_MODE = stringPreferencesKey("theme_mode")
         val KEY_APP_THEME = stringPreferencesKey("app_theme")
         val KEY_BACKGROUND_STYLE = stringPreferencesKey("bg_style")
+        val KEY_NO_LYRICS_DISPLAY = stringPreferencesKey("no_lyrics_display")
         val KEY_SHOW_LYRICS_IN_CAR = booleanPreferencesKey("show_lyrics_in_car")
         val KEY_KEEP_SCREEN_AWAKE = booleanPreferencesKey("keep_screen_awake")
         val KEY_LYRICS_FONT_SIZE = floatPreferencesKey("lyrics_font_size")
@@ -42,6 +44,7 @@ class BumprPreferences(private val context: Context) {
             AppTheme.AMETHYST.name -> AppTheme.AMETHYST
             AppTheme.TURQUOISE.name -> AppTheme.TURQUOISE
             AppTheme.AMOLED.name -> AppTheme.AMOLED
+            AppTheme.GLASS.name -> AppTheme.GLASS
             else -> AppTheme.NEON_CYAN
         }
     }
@@ -53,6 +56,11 @@ class BumprPreferences(private val context: Context) {
             BackgroundStyle.MINIMAL.name -> BackgroundStyle.MINIMAL
             else -> BackgroundStyle.MUSICAL_STAVE // Default to the glowing musical staves image
         }
+    }
+
+    val noLyricsDisplayFlow: Flow<NoLyricsDisplay> = context.dataStore.data.map { prefs ->
+        if (prefs[KEY_NO_LYRICS_DISPLAY] == NoLyricsDisplay.ANIMATED_WAVE.name) NoLyricsDisplay.ANIMATED_WAVE
+        else NoLyricsDisplay.ALBUM_ART
     }
 
     val themeModeFlow: Flow<ThemeMode> = context.dataStore.data.map { prefs ->
@@ -102,6 +110,10 @@ class BumprPreferences(private val context: Context) {
 
     suspend fun setAppTheme(theme: AppTheme) {
         context.dataStore.edit { it[KEY_APP_THEME] = theme.name }
+    }
+
+    suspend fun setNoLyricsDisplay(mode: NoLyricsDisplay) {
+        context.dataStore.edit { it[KEY_NO_LYRICS_DISPLAY] = mode.name }
     }
 
     suspend fun setBackgroundStyle(style: BackgroundStyle) {
