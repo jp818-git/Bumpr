@@ -59,8 +59,8 @@ class BumprPreferences(private val context: Context) {
     }
 
     val noLyricsDisplayFlow: Flow<NoLyricsDisplay> = context.dataStore.data.map { prefs ->
-        if (prefs[KEY_NO_LYRICS_DISPLAY] == NoLyricsDisplay.ANIMATED_WAVE.name) NoLyricsDisplay.ANIMATED_WAVE
-        else NoLyricsDisplay.ALBUM_ART
+        NoLyricsDisplay.values().firstOrNull { it.name == prefs[KEY_NO_LYRICS_DISPLAY] }
+            ?: NoLyricsDisplay.ALBUM_ART
     }
 
     val themeModeFlow: Flow<ThemeMode> = context.dataStore.data.map { prefs ->

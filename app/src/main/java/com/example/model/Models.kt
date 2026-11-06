@@ -26,7 +26,10 @@ enum class BackgroundStyle(val displayName: String) {
 
 enum class NoLyricsDisplay(val displayName: String) {
     ALBUM_ART("Album art"),
-    ANIMATED_WAVE("Animated wave")
+    ANIMATED_WAVE("Equalizer bars"),
+    FLOWING_WAVES("Flowing waves"),
+    PULSE_RINGS("Pulse rings"),
+    VINYL("Spinning vinyl")
 }
 
 data class Track(

@@ -76,7 +76,8 @@ import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
 import com.example.ui.BumprViewModel
 import com.example.model.NoLyricsDisplay
-import com.example.ui.components.AnimatedWave
+import com.example.ui.components.AnimatedVisual
+import com.example.ui.components.rememberTrackArtwork
 import com.example.ui.components.formatDuration
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -104,6 +105,8 @@ fun NowPlayingScreen(
 
     var isUserScrubbing by remember { mutableStateOf(false) }
     var scrubPositionMs by remember { mutableFloatStateOf(0f) }
+
+    val embeddedArt = rememberTrackArtwork(currentTrack?.contentUri)
 
     val track = currentTrack ?: return
     val isFavorite = favoriteIds.contains(track.id)
@@ -194,8 +197,20 @@ fun NowPlayingScreen(
             ) {
                 Box(modifier = Modifier.fillMaxSize()) {
                     // Animated wave (setting, only when no lyrics) or album art backdrop
-                    if (currentLyrics.lines.isEmpty() && noLyricsDisplay == NoLyricsDisplay.ANIMATED_WAVE) {
-                        AnimatedWave(isPlaying = isPlaying, modifier = Modifier.fillMaxSize())
+                    if (currentLyrics.lines.isEmpty() && noLyricsDisplay != NoLyricsDisplay.ALBUM_ART) {
+                        AnimatedVisual(
+                            style = noLyricsDisplay,
+                            isPlaying = isPlaying,
+                            art = embeddedArt,
+                            modifier = Modifier.fillMaxSize()
+                        )
+                    } else if (embeddedArt != null) {
+                        androidx.compose.foundation.Image(
+                            bitmap = embeddedArt,
+                            contentDescription = "Album Art",
+                            modifier = Modifier.fillMaxSize(),
+                            contentScale = androidx.compose.ui.layout.ContentScale.Crop
+                        )
                     } else if (!track.albumArtUri.isNullOrBlank()) {
                         coil.compose.AsyncImage(
                             model = track.albumArtUri,
