@@ -3,10 +3,16 @@
 **Bumpr** is an Android music player focused on local audio playback, synchronized lyrics, audio customization, and a polished, themeable listening experience. It is built with Kotlin and Jetpack Compose, with AndroidX Media3 handling playback and media-session integration.
 
 > This README describes the implementation present in this repository. Features that depend on device permissions or audio hardware may behave differently across Android devices.
-<img width="1080" height="2152" alt="Bumpr3" src="https://github.com/user-attachments/assets/22a1d95a-af06-4fac-930b-47c4d5226f4d" />
-<img width="1080" height="2154" alt="Bumpr2" src="https://github.com/user-attachments/assets/779722f4-3e9f-4155-baea-a4c7248316d4" />
-<img width="1080" height="2157" alt="Bumpr1" src="https://github.com/user-attachments/assets/11602174-7a9e-4a89-8565-78292973d495" /><img width="1080" height="2161" alt="Bumpr5" src="https://github.com/user-attachments/assets/b351bdc9-e3d4-46a6-a1ec-5f47fefb4707" />
-<img width="1080" height="2151" alt="Bumpr4" src="https://github.com/user-attachments/assets/c19c9e7c-b874-452b-b33e-8674131b7f91" /><img width="1080" height="2176" alt="Bumpr6" src="https://github.com/user-attachments/assets/2bbfbd76-3029-477f-a12c-2bf0da51b84c" />
+
+
+<div style="display: flex; overflow-x: auto; gap: 12px; padding: 10px;">
+  <img src="IMAGE_URL_1" width="180"/>
+  <img src="IMAGE_URL_2" width="180"/>
+  <img src="IMAGE_URL_3" width="180"/>
+  <img src="IMAGE_URL_4" width="180"/>
+  <img src="IMAGE_URL_5" width="180"/>
+  <img src="IMAGE_URL_6" width="180"/>
+</div>
 
 
 
