@@ -5,13 +5,17 @@
 > This README describes the implementation present in this repository. Features that depend on device permissions or audio hardware may behave differently across Android devices.
 
 
-<div style="display: flex; overflow-x: auto; gap: 12px; padding: 10px;">
-  <img src="IMAGE_URL_1" width="180"/>
-  <img src="IMAGE_URL_2" width="180"/>
-  <img src="IMAGE_URL_3" width="180"/>
-  <img src="IMAGE_URL_4" width="180"/>
-  <img src="IMAGE_URL_5" width="180"/>
-  <img src="IMAGE_URL_6" width="180"/>
+<div align="center">
+  <table>
+    <tr>
+      <td><img src="https://github.com/user-attachments/assets/779722f4-3e9f-4155-baea-a4c7248316d4" width="180" alt="Bumpr Screenshot 1"/></td>
+      <td><img src="https://github.com/user-attachments/assets/22a1d95a-af06-4fac-930b-47c4d5226f4d" width="180" alt="Bumpr Screenshot 2"/></td>
+      <td><img src="https://github.com/user-attachments/assets/11602174-7a9e-4a89-8565-78292973d495" width="180" alt="Bumpr Screenshot 3"/></td>
+      <td><img src="https://github.com/user-attachments/assets/b351bdc9-e3d4-46a6-a1ec-5f47fefb4707" width="180" alt="Bumpr Screenshot 4"/></td>
+      <td><img src="https://github.com/user-attachments/assets/c19c9e7c-b874-452b-b33e-8674131b7f91" width="180" alt="Bumpr Screenshot 5"/></td>
+      <td><img src="https://github.com/user-attachments/assets/2bbfbd76-3029-477f-a12c-2bf0da51b84c" width="180" alt="Bumpr Screenshot 6"/></td>
+    </tr>
+  </table>
 </div>
 
 
